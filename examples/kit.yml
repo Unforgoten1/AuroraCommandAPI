@@ -1,0 +1,63 @@
+# Example: Complex command with multiple actions
+# This demonstrates a "kit" command that gives players items and effects
+
+name: kit
+description: "Give yourself a starter kit"
+permission: server.kit
+cooldown: 86400000  # 24 hours in milliseconds (1 day)
+async: false
+requiresPlayer: true  # Only players can use this command
+
+aliases:
+  - starterkit
+  - starter
+
+# No arguments needed for this command
+
+# Execution actions
+execution:
+  actions:
+    # Action 1: Heal the player
+    - type: heal
+      target: sender
+
+    # Action 2: Feed the player
+    - type: feed
+      target: sender
+
+    # Action 3: Apply speed effect
+    - type: effect
+      target: sender
+      effect: SPEED
+      duration: 1200  # 60 seconds (20 ticks = 1 second)
+      amplifier: 1    # Speed II
+
+    # Action 4: Apply regeneration effect
+    - type: effect
+      target: sender
+      effect: REGENERATION
+      duration: 600   # 30 seconds
+      amplifier: 0    # Regeneration I
+
+    # Action 5: Broadcast message
+    - type: broadcast
+      text: "&e{sender} &7claimed their starter kit!"
+
+    # Action 6: Send confirmation to player
+    - type: message
+      target: sender
+      text: "&a&l✔ Starter Kit Claimed!"
+
+    # Action 7: Execute console command (give items)
+    - type: command
+      text: "give {sender} DIAMOND_SWORD 1"
+
+    # Action 8: Execute another console command
+    - type: command
+      text: "give {sender} GOLDEN_APPLE 5"
+
+# Custom messages
+messages:
+  no_permission: "&c&l✖ &cYou don't have permission to claim kits!"
+  on_cooldown: "&c&l✖ &cYou can only claim a kit once per day!"
+  player_only: "&cOnly players can claim kits!"

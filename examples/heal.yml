@@ -1,0 +1,45 @@
+# Example command definition in YAML format
+# This file demonstrates the YAML/JSON Command Definition feature
+# Place this file in your plugin's commands/ directory and load with:
+# manager.loadCommandsFromDirectory(new File(plugin.getDataFolder(), "commands"));
+
+name: heal
+description: "Heal yourself or another player"
+permission: server.heal
+cooldown: 5000  # 5 seconds in milliseconds
+async: false
+requiresPlayer: false
+
+# Command aliases
+aliases:
+  - hp
+  - health
+
+# Command arguments
+arguments:
+  - name: target
+    type: player
+    description: "The player to heal"
+    # Optional: default value would make this argument optional
+
+# Execution actions (run in order)
+execution:
+  actions:
+    # Action 1: Heal the target player
+    - type: heal
+      target: target  # References the "target" argument
+
+    # Action 2: Send message to the healed player
+    - type: message
+      target: target
+      text: "&a&lYou have been healed!"
+
+    # Action 3: Send confirmation to the sender
+    - type: message
+      target: sender
+      text: "&7Healed &a{target}&7."
+
+# Custom error messages (optional)
+messages:
+  no_permission: "&cYou don't have permission to heal players!"
+  on_cooldown: "&cPlease wait before using heal again!"
